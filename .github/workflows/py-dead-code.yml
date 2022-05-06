@@ -1,7 +1,9 @@
 ---
 name: "Python Find Dead Code"
 
-on: [pull_request]
+on:
+  pull_request:
+  workflow_dispatch:
 
 jobs:
   lint:
