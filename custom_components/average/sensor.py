@@ -393,6 +393,10 @@ class AverageSensor(SensorEntity):
 
     def _init_mode(self, state: LazyState):
         """Initialize sensor mode."""
+
+        _LOGGER.debug('Initialize sensor mode: %s - %s', state.entity_id, state.state)
+        _LOGGER.debug('  Unit of measurement (entry): %s', self._attr_unit_of_measurement)
+
         if self._temperature_mode is not None:
             return
 
@@ -411,6 +415,8 @@ class AverageSensor(SensorEntity):
         else:
             _LOGGER.debug("%s is NOT a temperature entity.", state.entity_id)
             self._attr_icon = state.attributes.get(ATTR_ICON)
+
+        _LOGGER.debug('  Unit of measurement (exit): %s', self._attr_unit_of_measurement)
 
     def _update_state(self):  # pylint: disable=r0914,r0912,r0915
         """Update the sensor state."""
@@ -532,4 +538,4 @@ class AverageSensor(SensorEntity):
                 self._attr_state = int(self._attr_state)
         else:
             self._attr_state = None
-        _LOGGER.debug("Total average state: %s", self._attr_state)
+        _LOGGER.debug("Total average state: %s %s", self._attr_state, self._attr_unit_of_measurement)
