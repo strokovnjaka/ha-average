@@ -167,7 +167,7 @@ class AverageSensor(SensorEntity):
 
         self._attr_name = name
         self._attr_state = None
-        self._attr_unit_of_measurement = None
+        self._attr_native_unit_of_measurement = None
         self._attr_icon = None
         self._attr_state_class = STATE_CLASS_MEASUREMENT
         self._attr_device_class = None
@@ -398,16 +398,16 @@ class AverageSensor(SensorEntity):
 
         domain = split_entity_id(state.entity_id)[0]
         self._attr_device_class = state.attributes.get(ATTR_DEVICE_CLASS)
-        self._attr_unit_of_measurement = state.attributes.get(ATTR_UNIT_OF_MEASUREMENT)
+        self._attr_native_unit_of_measurement = state.attributes.get(ATTR_UNIT_OF_MEASUREMENT)
         self._temperature_mode = (
             self._attr_device_class == DEVICE_CLASS_TEMPERATURE
             or domain in (WEATHER_DOMAIN, CLIMATE_DOMAIN, WATER_HEATER_DOMAIN)
-            or self._attr_unit_of_measurement in TEMPERATURE_UNITS
+            or self._attr_native_unit_of_measurement in TEMPERATURE_UNITS
         )
         if self._temperature_mode:
             _LOGGER.debug("%s is a temperature entity.", state.entity_id)
             self._attr_device_class = DEVICE_CLASS_TEMPERATURE
-            self._attr_unit_of_measurement = self.hass.config.units.temperature_unit
+            self._attr_native_unit_of_measurement = self.hass.config.units.temperature_unit
         else:
             _LOGGER.debug("%s is NOT a temperature entity.", state.entity_id)
             self._attr_icon = state.attributes.get(ATTR_ICON)
